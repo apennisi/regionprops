@@ -23,4 +23,4 @@ std::vector<cv::Point> contour = biggest(contours); //biggest is an invented fun
 
 RegionProps regionProps(contour, grayscale);
 Region r = regionProps.getRegion(); //r will contain all the information about the contour
-```ß
+```
