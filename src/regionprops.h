@@ -43,17 +43,6 @@ class RegionProps {
          */
         RegionProps(const std::vector<cv::Point> &_contour, const cv::Mat &_img);
         /**
-         * @brief distance return the distance (x,y) from the contour.
-         * @param xy
-         * @return return the distance (x,y) from the contour.
-         */
-        cv::Point distance(const cv::Point &xy);
-        /**
-         * @brief distance_image return the distance image where distance to all points on image are
-         * @return return the distance image where distance to all points on image are
-         */
-        cv::Point distance_image();
-        /**
          * @brief getRegion return the object region with all the information
          * @return return the object region with all the information
          */
