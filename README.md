@@ -7,7 +7,7 @@ Regionprops requires the following packeges to build:
 * OpenCV (< 3.0)
 
 ## How to use
-Once you compile your project, you can use Regionprops as follows:
+Once you compile your own project, you can use Regionprops as follows:
 ```c++
 cv::Mat img; //input image
 cv::Mat gray; //grayscale version of the input image
@@ -22,4 +22,5 @@ cv::findContours(bin, contours, hierarchy, CV_RETR_LIST, CV_CHAIN_APPROX_NONE);
 std::vector<cv::Point> contour = biggest(contours); //biggest is an invented function
 
 RegionProps regionProps(contour, grayscale);
-Region r = regionProps.getRegion();
+Region r = regionProps.getRegion(); //r will contain all the information about the contour
+```ß
