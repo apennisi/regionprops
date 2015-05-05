@@ -21,6 +21,6 @@ cv::findContours(bin, contours, hierarchy, CV_RETR_LIST, CV_CHAIN_APPROX_NONE);
 //select the contours that you want, for example the contour with the biggest area
 std::vector<cv::Point> contour = biggest(contours); //biggest is an invented function
 
-RegionProps regionProps(contour, grayscale);
+RegionProps regionProps(contour, grays);
 Region r = regionProps.getRegion(); //r will contain all the information about the contour
 ```
