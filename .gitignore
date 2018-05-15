@@ -1,0 +1,8 @@
+build
+CMakeLists.txt.user
+regionprops_.cpp
+.vscode
+*.pyc
+*.pyd
+*.dll
+*.so
