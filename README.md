@@ -25,7 +25,7 @@ RegionProps regionProps(contour, gray);
 Region r = regionProps.getRegion(); //r will contain all the information about the contour
 ```
 ## Python wrapper
-See src/python folder. To build the python extension cd into src/python folder and type following:
+See src/python folder. To build the python extension cd into src/python folder, edit include folders in setup.py and type following:
 ```
 python setup.py build_ext --inplace
 
