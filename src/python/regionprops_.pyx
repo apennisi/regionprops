@@ -78,14 +78,6 @@ cdef extern from "opencv2/core.hpp" namespace "cv::Moments":
 cdef extern from "opencv2/imgproc/imgproc.hpp" namespace "cv":
      void findContours(Mat mbin, vector[vector[Point]] contours, vector[Vec4i] hierarchy, int rl, int can)
 
-cdef extern from "<valarray>" namespace "std":
-    cdef cppclass valarray[T]:
-        valarray()
-        valarray(unsigned char)
-        valarray(double)
-        T& operator[](unsigned char)
-        T& operator[](double)
-
 cdef extern from "../region.h":
     cdef cppclass Region:
         Region() except +
@@ -199,8 +191,8 @@ cpdef regionprops(
             "Approx": vp2np(_region.Approx()),
             "FilledImage": mat2np(_region.FilledImage()),
             "Centroid": {"x":_region.Centroid().x, "y":_region.Centroid().y },
-            "AspectRatio": _region.AspectRatio(),
-            "EquivalentDiameter": (4.0*_region.Area()/np.pi)**0.5, #_region.EquivalentDiameter(), there is a problem with c++ version, it always returns 0
+            "AspectRatio": 1.0*_region.BoundingBox().width / _region.BoundingBox().height, # _region.AspectRatio(): this returns nan?
+            "EquivalentDiameter": (4.0*_region.Area()/np.pi)**0.5, #_region.EquivalentDiameter(): this returns 0.0?
             "Eccentricity": _region.Eccentricity(),
             "FilledArea":  _region.FilledArea(),
             "PixelList": mat2np(_region.PixelList()),
