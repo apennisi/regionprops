@@ -162,8 +162,6 @@ cpdef regionprops(
     findContours(cbin, contoursv, hierarchy, CV_RETR_LIST, CV_CHAIN_APPROX_NONE)
     
     cdef Region _region
-    cdef vector[Point] contour
-    cdef vector[Point] cvhull
 
     regions = []
     for j in range(contoursv.size()):
@@ -202,7 +200,7 @@ cpdef regionprops(
             "FilledImage": mat2np(_region.FilledImage()),
             "Centroid": {"x":_region.Centroid().x, "y":_region.Centroid().y },
             "AspectRatio": _region.AspectRatio(),
-            "EquivalentDiameter": _region.EquivalentDiameter(),
+            "EquivalentDiameter": (4.0*_region.Area()/np.pi)**0.5, #_region.EquivalentDiameter(), there is a problem with c++ version, it always returns 0
             "Eccentricity": _region.Eccentricity(),
             "FilledArea":  _region.FilledArea(),
             "PixelList": mat2np(_region.PixelList()),
