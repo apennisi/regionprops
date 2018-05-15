@@ -44,11 +44,11 @@ cdef extern from "opencv2/core.hpp" namespace "cv":
         float angle
         Point2f center
         Size2f size
-    cdef cppclass Scalar[T]:
+    cdef cppclass Scalar:
         Scalar() except +
         Scalar(double) except +
         Scalar(double, double, double) except +
-        T& at(int)
+        Scalar(double, double, double, double) except +
         
     cdef cppclass Vec4i "cv::Vec<int, 4>": 
         Vec4i() except +
@@ -59,6 +59,7 @@ cdef extern from "opencv2/core.hpp" namespace "cv":
         Rect(double x1, double y1, double x2, double y2) except +
         Rect(int x1, int y1, int x2, int y2) except +
         double height, width, x, y
+
 cdef extern from "opencv2/core.hpp" namespace "cv::Moments":
     cdef cppclass Moments:
         Moments() except +
@@ -74,8 +75,6 @@ cdef extern from "opencv2/core.hpp" namespace "cv::Moments":
         double 	m12
         double 	m03
     
-    
-
 cdef extern from "opencv2/imgproc/imgproc.hpp" namespace "cv":
      void findContours(Mat mbin, vector[vector[Point]] contours, vector[Vec4i] hierarchy, int rl, int can)
 
@@ -86,7 +85,6 @@ cdef extern from "<valarray>" namespace "std":
         valarray(double)
         T& operator[](unsigned char)
         T& operator[](double)
-
 
 cdef extern from "../region.h":
     cdef cppclass Region:
@@ -150,7 +148,7 @@ cpdef regionprops(
     cdef int r = mbin.shape[0]
     cdef int c = mbin.shape[1]
     cdef int i, j
-    cdef Scalar s
+    
     cdef Mat cbin
     cbin.create(r, c, CV_8UC1)
     memcpy(cbin.data, &mbin[0,0], r*c)
@@ -163,17 +161,15 @@ cpdef regionprops(
     cdef vector[Vec4i] hierarchy;
     findContours(cbin, contoursv, hierarchy, CV_RETR_LIST, CV_CHAIN_APPROX_NONE)
     
-    print(contoursv.size())
-    
     cdef Region _region
     cdef vector[Point] contour
     cdef vector[Point] cvhull
+
     regions = []
     for j in range(contoursv.size()):
         m_dict = {}
 
-        contour = contoursv[j]
-        _region = getRInstance(contoursv[0], cgray)
+        _region = getRInstance(contoursv[j], cgray)
         
         m_dict = {
             "Area": _region.Area(),
@@ -215,14 +211,12 @@ cpdef regionprops(
             "MinVal": _region.MinVal(),
             "MaxLoc": {"x": _region.MaxLoc().x, "y": _region.MaxLoc().y },
             "MinLoc": {"x": _region.MinLoc().x, "y": _region.MinLoc().y },
-            "MeanVal": scalarToVector(_region.MeanVal()), # not sure, may be implemeted in a better way
+            "MeanVal": scalarToVector(_region.MeanVal()), # not sure if it is the best implementation
             "Extrema": vp2np(_region.Extrema()),
             "Solidity": _region.Solidity()
-
         }
 
         regions.append(m_dict)
-        #print(_region.Area())
     
     return regions
 
