@@ -23,9 +23,14 @@ im_filled = ndi.binary_fill_holes(binary).astype(np.uint8) # You may want to use
 start_time = time.time()
 
 regions = rp.regionprops(im_filled, img_gray)
+"""
+regions is a python list containing dictionaries of props. props can be accessed such that 
+regions[0]["Area"]
 
+available prop names can be seen in regionprops_.pyx
+"""
 print("--- %s seconds ---" % (time.time() - start_time))
-
+print(regions[0]["Area"])
 
 
 

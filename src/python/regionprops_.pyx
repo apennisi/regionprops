@@ -225,4 +225,4 @@ cpdef regionprops(
         #print(_region.Area())
     
     return regions
-    #return np.asarray(ndt).reshape((r,c))
+
