@@ -1,6 +1,6 @@
 build
 CMakeLists.txt.user
-voronoi_.cpp
+regionprops_.cpp
 .vscode
 *.pyc
 *.pyd
