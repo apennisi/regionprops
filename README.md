@@ -24,3 +24,10 @@ std::vector<cv::Point> contour = biggest(contours); //biggest is an invented fun
 RegionProps regionProps(contour, gray);
 Region r = regionProps.getRegion(); //r will contain all the information about the contour
 ```
+## Python wrapper
+See src/python folder. To build the python extension type following:
+```
+python setup.py build_ext --inplace
+
+```
+And, run test.py in src/python
