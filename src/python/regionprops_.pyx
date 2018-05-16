@@ -141,13 +141,13 @@ cpdef regionprops(
     cdef int c = mbin.shape[1]
     cdef int i, j
     
-    cdef Mat cbin
-    cbin.create(r, c, CV_8UC1)
-    memcpy(cbin.data, &mbin[0,0], r*c)
+    cdef Mat cbin = Mat(r, c, CV_8UC1, mbin.data)
+    #cbin.create(r, c, CV_8UC1)
+    #memcpy(cbin.data, &mbin[0,0], r*c)
     
-    cdef Mat cgray
-    cgray.create(r, c, CV_8UC1)
-    memcpy(cgray.data, &mgray[0,0], r*c)
+    cdef Mat cgray = Mat(r, c, CV_8UC1, mgray.data)
+    #cgray.create(r, c, CV_8UC1)
+    #memcpy(cgray.data, &mgray[0,0], r*c)
 
     cdef vector[vector[Point]] contoursv;
     cdef vector[Vec4i] hierarchy;
@@ -156,11 +156,14 @@ cpdef regionprops(
     cdef Region _region
 
     regions = []
+
+    cdef np.ndarray[np.float_t, ndim=2, mode="c"] filledImage
+
     for j in range(contoursv.size()):
         m_dict = {}
 
         _region = getRInstance(contoursv[j], cgray)
-        
+        filledImage = mat2np(_region.FilledImage())
         m_dict = {
             "Area": _region.Area(),
             "Perimeter": _region.Perimeter(),
@@ -189,13 +192,13 @@ cpdef regionprops(
             "MinorAxis": _region.MinorAxis(),
             "MajorAxis": _region.MajorAxis(),
             "Approx": vp2np(_region.Approx()),
-            "FilledImage": mat2np(_region.FilledImage()),
+            "FilledImage": filledImage,
             "Centroid": {"x":_region.Centroid().x, "y":_region.Centroid().y },
             "AspectRatio": 1.0*_region.BoundingBox().width / _region.BoundingBox().height, # _region.AspectRatio(): this returns nan?
             "EquivalentDiameter": (4.0*_region.Area()/np.pi)**0.5, #_region.EquivalentDiameter(): this returns 0.0?
             "Eccentricity": _region.Eccentricity(),
             "FilledArea":  _region.FilledArea(),
-            "PixelList": mat2np(_region.PixelList()),
+            "PixelList": filledImage.nonzero(),
             "ConvexImage": mat2np(_region.ConvexImage()),
             "MaxVal": _region.MaxVal(),
             "MinVal": _region.MinVal(),
