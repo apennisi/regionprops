@@ -32,4 +32,4 @@ python setup.py build_ext --inplace
 ```
 And, run test.py in src/python
 
-![alt text](https://raw.githubusercontent.com/aferust/regionprops/blob/master/src/python/exampleOutput.png)
+![alt text](https://github.com/aferust/regionprops/blob/master/src/python/exampleOutput.png?raw=true)
