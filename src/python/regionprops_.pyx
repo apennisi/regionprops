@@ -139,7 +139,7 @@ cpdef regionprops(
                 ):
     cdef int r = mbin.shape[0]
     cdef int c = mbin.shape[1]
-    cdef int i, j
+    cdef int j
     
     cdef Mat cbin = Mat(r, c, CV_8UC1, mbin.data)
     #cbin.create(r, c, CV_8UC1)
