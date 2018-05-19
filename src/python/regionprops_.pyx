@@ -142,12 +142,7 @@ cpdef regionprops(
     cdef int j
     
     cdef Mat cbin = Mat(r, c, CV_8UC1, mbin.data)
-    #cbin.create(r, c, CV_8UC1)
-    #memcpy(cbin.data, &mbin[0,0], r*c)
-    
     cdef Mat cgray = Mat(r, c, CV_8UC1, mgray.data)
-    #cgray.create(r, c, CV_8UC1)
-    #memcpy(cgray.data, &mgray[0,0], r*c)
 
     cdef vector[vector[Point]] contoursv;
     cdef vector[Vec4i] hierarchy;
